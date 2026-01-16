@@ -1,6 +1,6 @@
 # Vulnerability Management Lab: Tenable Nessus Essentials
 
-**Author:** Afan Nishad
+**Author:** Affaan Irshad
 **Role:** Cybersecurity Analyst
 **Tools:** Tenable Nessus Essentials, VMware/VirtualBox, Windows 10
 **Focus:** Vulnerability Assessment, System Hardening, Risk Remediation
