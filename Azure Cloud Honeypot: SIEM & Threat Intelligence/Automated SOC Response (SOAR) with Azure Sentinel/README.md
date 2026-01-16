@@ -1,6 +1,6 @@
 # Project: Automated SOC Response (SOAR) with Azure Sentinel
 
-**Author:** Afan Nishad
+**Author:** Affaan Irshad
 **Role:** Cybersecurity Analyst / Cloud Security Engineer
 **Tools:** Microsoft Azure Sentinel, Logic Apps, KQL, NIST Incident Response
 
