@@ -30,10 +30,12 @@ I built a "Detect & Respond" pipeline using the cloud-native capabilities of Mic
 
 **The KQL Query Used:**
 ```kusto
-SecurityEvent
+// Map Query for "Event" Table (XML Parser)
+Event
 | where EventID == 4625
-| summarize FailureCount = count() by IpAddress, Account
-| where FailureCount >= 10
+| extend IpAddress = extract("IpAddress\">([0-9.]+)<", 1, EventData)
+| where isnotempty(IpAddress) and IpAddress != "-"
+| project TimeGenerated, IpAddress, Computer, EventID
 ```
 ## Phase 2: The Automated Playbook (Logic App)
 **Goal:** Create the automated workflow that triggers when an attack is detected.
