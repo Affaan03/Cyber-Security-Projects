@@ -87,18 +87,15 @@ This guide outlines the exact steps required to deploy a Windows Virtual Machine
     Use the following query to extract the raw XML data and plot it:
 
     ```kusto
-    FAILED_RDP_WITH_GEO_CL
-    | extend username = extract(@"username:([^,]+)", 1, RawData),
-             timestamp = extract(@"timestamp:([^,]+)", 1, RawData),
-             latitude = extract(@"latitude:([^,]+)", 1, RawData),
-             longitude = extract(@"longitude:([^,]+)", 1, RawData),
-             sourcehost = extract(@"sourcehost:([^,]+)", 1, RawData),
-             state = extract(@"state:([^,]+)", 1, RawData),
-             label = extract(@"label:([^,]+)", 1, RawData),
-             destination = extract(@"destinationhost:([^,]+)", 1, RawData)
-    | where destination != "samplehost"
-    | where sourcehost != ""
-    | summarize event_count=count() by sourcehost, latitude, longitude, label, destination
+   // Map Query for "Event" Table (XML Parser)
+   Event
+   | where EventID == 4625
+   | extend IpAddress = extract("IpAddress\">([0-9.]+)<", 1, EventData)
+   | where isnotempty(IpAddress) and IpAddress != "-"
+   | extend Country = tostring(geo_info_from_ip_address(IpAddress).country)
+   | summarize AttackCount = count() by Country, IpAddress
+   | project Country, IpAddress, AttackCount
+    sort by AttackCount desc
     ```
 
 4. **Configure Map Settings:**
